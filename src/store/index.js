@@ -5,8 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        username: '',
-        token: '',
+        username: localStorage.getItem('til_user') || '',
+        token: localStorage.getItem('til_auth') || '',
     },
     getters:{
         isLogin(state){
