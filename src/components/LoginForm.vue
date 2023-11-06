@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { loginUser } from '@/api/index';
 import { validateEmail } from '@/utils/validation';
 
 export default {
@@ -40,15 +39,7 @@ export default {
                     username: this.username,
                     password : this.password,
                 }
-                const { data } = await loginUser(userData);
-                console.log(data);
-                this.$store.commit('setToken', data.token);
-                this.$store.commit('setUsername', data.user.username);
-
-                //TODO 쿠키나, localstorage를 사용해서 저장
-                localStorage.setItem("til_auth", data.token);
-                localStorage.setItem("til_user", data.user.username);
-
+                await this.$store.dispatch('LOGIN', userData);
                 this.$router.push('/main');
             } catch (error) {
                 //에러 핸들링할 코드
