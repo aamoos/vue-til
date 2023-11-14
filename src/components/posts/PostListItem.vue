@@ -8,13 +8,15 @@
     </div>
     <div clsas="post-time">
         {{ postItem.createdAt }}
-        <i class="icon ion-md-create"></i>
+        <i class="icon ion-md-create" @click="routeEditPage"></i>
         <i class="icon ion-md-trash" @click="deleteItem"></i>
     </div>
 </li>
 </template>
 
 <script>
+import { deletePost } from '@/api/posts'
+
 export default {
     props: {
         postItem: {
@@ -23,8 +25,14 @@ export default {
         }
     },
     methods: {
-        deleteItem(){
-
+        async deleteItem(){
+            if(confirm('you want to delete it?')){
+                await deletePost(this.postItem._id);
+                this.$emit('refresh');
+            }
+        },
+        routeEditPage(){
+            this.$rotuer.push('/post/asddsaadsdas')
         }
     }
 }

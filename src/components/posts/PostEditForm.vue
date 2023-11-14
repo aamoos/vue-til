@@ -1,6 +1,6 @@
 <template>
-    <div class="contents">
-        <h1 class="page-header">Create Post</h1>
+  <div class="contents">
+        <h1 class="page-header">Edit Post</h1>
         <div class="form-wrapper">
             <form class="form" @submit.prevent="submitForm">
                 <div>
@@ -14,7 +14,7 @@
                         Contents must be less than 200
                     </p>
                 </div>
-                <button type="submit" class="btn">Create</button>
+                <button type="submit" class="btn">Edit</button>
             </form>  
             <p class="log">
                 {{ logMessage }}    
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import { createPost } from '@/api/posts'
+import { fetchPost, editPost } from '@/api/posts'
 
 export default {
-    data() {
+     data() {
         return {
             title: '',
             contents: '',
@@ -39,22 +39,28 @@ export default {
             return this.contents.length <= 200;
         }
     },
-
     methods: {
         async submitForm(){
-            try {
-                const response = await createPost({
-                title: this.title,
-                contents: this.contents,
-            });
-            this.$router.push('/main');
-            console.log(response);
-            } catch (error) {
-                console.log(error.response.data.meesage);
-                this.logMessage = error.resposne.data.message;
+            const id = this.$route.params.id;
+            try{
+                await editPost(id, {
+                    title: this.title,
+                    contents: this.contents,
+                });
+                this.$router.push('/main');      
+            }catch(error){
+                console.log(error);
+                this.logMessage = error;
             }
-            
-        }
+
+        },
+    },
+    async created(){
+        const id = this.$route.params.id;
+        const { data } = await fetchPost(id);
+        this.title = data.title;
+        this.contents = data.contents;
+        console.log(data);
     }
 }
 </script>
