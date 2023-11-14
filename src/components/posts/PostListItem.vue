@@ -8,6 +8,8 @@
     </div>
     <div clsas="post-time">
         {{ postItem.createdAt }}
+        <i class="icon ion-md-create"></i>
+        <i class="icon ion-md-trash" @click="deleteItem"></i>
     </div>
 </li>
 </template>
@@ -18,6 +20,11 @@ export default {
         postItem: {
             type: Object,
             required: true,
+        }
+    },
+    methods: {
+        deleteItem(){
+
         }
     }
 }
