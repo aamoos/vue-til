@@ -2,7 +2,7 @@
   <div>
 	<header>
 		<div>
-			<router-link to="/" class="logo">
+			<router-link :to="logoLink" class="logo">
 				TIL
 			</router-link>
 		</div>
@@ -26,11 +26,17 @@ export default {
 	computed: {
 		isUserLogin(){
 			return this.$store.getters.isLogin;
+		},
+		logoLink(){
+			return this.$store.getters.isLogin ? '/main' : '/login';
 		}
 	},
 	methods: {
 		logoutUser(){
 			this.$store.commit('clearUsername');
+			this.$store.commit('clearToken');
+			localStorage.removeItem("til_auth");
+			localStorage.removeItem("til_user");
 			this.$router.push('/login');
 		}
 	}
